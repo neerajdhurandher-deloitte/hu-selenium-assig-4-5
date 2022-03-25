@@ -1,0 +1,21 @@
+<?xml version = "1.0"?>
+<users>
+
+    <user id = "001">
+        <username>standard_user</username>
+        <password>secret_sauce</password>
+    </user>
+    <user id = "002">
+        <username>locked_out_user</username>
+        <password>secret_sauce</password>
+    </user>
+    <user id = "003">
+        <username>problem_user</username>
+        <password>secret_sauce</password>
+    </user>
+    <user id = "004">
+        <username>performance_glitch_user</username>
+        <password>secret_sauce</password>
+    </user>
+
+</users>
