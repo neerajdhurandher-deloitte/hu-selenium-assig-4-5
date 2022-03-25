@@ -36,11 +36,15 @@ public class XlsxReader {
             User user = new User();
 
             for (int j = 0; j < row.getLastCellNum(); j++) {
+
                 String data = row.getCell(j).getStringCellValue();
 
                 switch (j){
                     case 0 -> user.setUserName(data);
                     case 1-> user.setPassword(data);
+                    case 2-> user.setFirstName(data);
+                    case 3-> user.setLastName(data);
+                    case 4-> user.setPinCode(data);
                 }
             }
             userList.add(user);

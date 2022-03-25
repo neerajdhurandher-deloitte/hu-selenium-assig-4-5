@@ -7,9 +7,13 @@ import org.openqa.selenium.WebElement;
 
 public class LoginAuth {
 
+    WebDriver driver;
+    User user;
+
     public LoginAuth(WebDriver driver, User user){
 
-        FindElement element = new FindElement(driver);
+        this.driver = driver;
+        this.user = user;
 
         WebElement userNameInput = driver.findElement(By.xpath("//input[@id= 'user-name']"));
         WebElement passwordInput = driver.findElement(By.xpath("//input[@id= 'password']"));
@@ -23,5 +27,12 @@ public class LoginAuth {
         passwordInput.sendKeys(user.getPassword());
         logInBtn.click();
 
+    }
+
+    public void fillDetail(){
+
+        driver.findElement(By.xpath("//input[@id= 'first-name']")).sendKeys(this.user.getFirstName());
+        driver.findElement(By.xpath("//input[@id= 'last-name']")).sendKeys(this.user.getLastName());
+        driver.findElement(By.xpath("//input[@id= 'postal-code']")).sendKeys(this.user.getPinCode());
     }
 }
