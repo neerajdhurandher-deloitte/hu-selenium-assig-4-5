@@ -1,0 +1,14 @@
+2022-03-29 13:24:08,151  INFO [TestNG-test=test-2] TestClass:20 - Test initialized
+2022-03-29 13:24:08,151  INFO [TestNG-test=test-1] TestClass:20 - Test initialized
+2022-03-29 13:24:12,315  INFO [TestNG-test=test-1] MainClass:38 - web browser initialized
+2022-03-29 13:24:12,434  INFO [TestNG-test=test-2] MainClass:38 - web browser initialized
+2022-03-29 13:24:30,258  INFO [TestNG-test=test-2] MainClass:101 - items in home page 2
+2022-03-29 13:24:30,474  INFO [TestNG-test=test-1] MainClass:101 - items in home page 2
+2022-03-29 13:24:32,385  INFO [TestNG-test=test-2] MainClass:107 - items in cart page 2
+2022-03-29 13:24:32,583  INFO [TestNG-test=test-1] MainClass:107 - items in cart page 2
+2022-03-29 13:24:33,131  INFO [TestNG-test=test-2] MainClass:144 - Take Screenshot
+2022-03-29 13:24:33,147  INFO [TestNG-test=test-1] MainClass:144 - Take Screenshot
+2022-03-29 13:24:44,047  INFO [TestNG-test=test-1] MainClass:144 - Take Screenshot
+2022-03-29 13:24:44,051  INFO [TestNG-test=test-1] TestClass:26 - Web driver closed
+2022-03-29 13:24:44,105  INFO [TestNG-test=test-2] MainClass:144 - Take Screenshot
+2022-03-29 13:24:44,105  INFO [TestNG-test=test-2] TestClass:26 - Web driver closed

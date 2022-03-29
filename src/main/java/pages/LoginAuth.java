@@ -20,9 +20,6 @@ public class LoginAuth {
         WebElement logInBtn = driver.findElement(By.xpath("//input[@id= 'login-button']"));
 
 
-        System.out.println("userame : "+user.getUserName());
-        System.out.println("password : "+user.getPassword());
-
         userNameInput.sendKeys(user.getUserName());
         passwordInput.sendKeys(user.getPassword());
         logInBtn.click();

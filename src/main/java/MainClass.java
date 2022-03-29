@@ -1,10 +1,12 @@
 import Utills.Utils;
 import dataFile.User;
 import dataFile.XlsxReader;
+import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.ElementNotVisibleException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.Select;
 import pages.CartPage;
 import pages.LoginAuth;
@@ -15,22 +17,38 @@ import java.util.ArrayList;
 public class MainClass {
 
     WebDriver driver = null;
+    Utils utils;
+    Logger log;
+    LoginAuth loginAuth;
+    CartPage cartPage;
 
-    public void launch (WebDriver driver) throws IOException, InterruptedException, AWTException {
 
-        this.driver = driver;
+    public void launch() {
+
+        driver = new ChromeDriver();
+        log = Logger.getLogger(MainClass.class);
 
         driver.get("https://www.saucedemo.com/");
 
-        Utils utils = new Utils();
+        utils = new Utils();
 
+        cartPage = new CartPage(driver);
+
+
+        log.info("web browser initialized");
+
+    }
+
+    public void logIn() throws InterruptedException, IOException {
         XlsxReader xlsxReader = new XlsxReader("src/main/java/dataFile/UsersDetails.xlsx");
         ArrayList<User> list = xlsxReader.readFile();
 
-        LoginAuth loginAuth = new LoginAuth(driver, list.get(0));
+        loginAuth = new LoginAuth(driver, list.get(0));
 
         Thread.sleep(2000);
+    }
 
+    public void highestItemAdd() throws InterruptedException {
         selectHighestPrice();
 
         Thread.sleep(2000);
@@ -39,63 +57,12 @@ public class MainClass {
 
         Thread.sleep(2000);
 
-        CartPage cartPage = new CartPage(driver);
-
         cartPage.goToCart();
 
         Thread.sleep(2000);
 
         driver.findElement(By.xpath("//button[@id = 'continue-shopping']")).click();
         Thread.sleep(2000);
-
-        selectLowestPrice();
-
-        Thread.sleep(2000);
-
-        int a = cartItemCount();
-        System.out.println("items in home page "+a);
-
-        cartPage.goToCart();
-        Thread.sleep(2000);
-
-        int b = cartItemCount();
-        System.out.println("items in cart page "+ b);
-
-
-        try {
-            utils.takeScreenshot("C:\\Users\\ndhurandher\\Pictures\\Screenshorts\\","Shopping Cart");
-            System.out.println("Take Screenshot");
-        }catch (Exception e){
-            System.out.println(e.getMessage());
-        }
-
-        driver.findElement(By.xpath("//button[@id = 'checkout']")).click();
-
-        Thread.sleep(2000);
-
-        loginAuth.fillDetail();
-
-        Thread.sleep(3000);
-
-        driver.findElement(By.xpath("//input[@id = 'continue']")).click();
-
-        Thread.sleep(3000);
-
-        driver.findElement(By.xpath("//button[@id = 'finish']")).click();
-
-        Thread.sleep(2000);
-
-        try {
-            utils.takeScreenshot("C:\\Users\\ndhurandher\\Pictures\\Screenshorts\\","Shopping Recipient");
-            System.out.println("Take Screenshot");
-        }catch (Exception e){
-            System.out.println(e.getMessage());
-        }
-
-        System.out.println("End of program");
-
-
-
     }
 
 
@@ -129,18 +96,31 @@ public class MainClass {
 
     }
 
+    public void cartItems() throws InterruptedException {
+        int a = cartItemCount();
+        log.info("items in home page "+a);
+
+        cartPage.goToCart();
+        Thread.sleep(2000);
+
+        int b = cartItemCount();
+        log.info("items in cart page "+ b);
+
+        takeScreenShort("Shopping","Shopping Recipient");
+    }
+
     private void clickAddToCart(String firstBtnClass, String secondBtnClass) throws InterruptedException {
         try {
             driver.findElement(By.xpath("(//button[contains(@class,'"+firstBtnClass+"')]) [" + 1 + "]")).click();
         }catch (ElementNotVisibleException e){
-            System.out.println("element "+e.getMessage());
+            log.error("element "+e.getMessage());
             Thread.sleep(2000);
             driver.findElement(By.xpath("(//button[contains(@class,'"+secondBtnClass+"')]) [" + 1 + "]")).click();
             Thread.sleep(2000);
             driver.findElement(By.xpath("(//button[contains(@class,'"+firstBtnClass+"')]) [" + 1 + "]")).click();
 
         }catch (Exception e){
-            System.out.println("e " + e.getMessage());
+            log.error("e " + e.getMessage());
         }
     }
 
@@ -156,6 +136,35 @@ public class MainClass {
 
         Select selectObj = new Select(driver.findElement(By.cssSelector("select[class*='product_sort_container']")));
         selectObj.selectByValue(filter);
+    }
+
+    public void takeScreenShort(String folder, String fileName){
+        try {
+            utils.takeScreenshot("C:\\Users\\ndhurandher\\Pictures\\Screenshorts\\"+folder,fileName);
+            log.info("Take Screenshot");
+        }catch (Exception e){
+            log.error(e.getMessage());
+        }
+    }
+
+    public void checkoutProcess() throws InterruptedException {
+        driver.findElement(By.xpath("//button[@id = 'checkout']")).click();
+
+        Thread.sleep(2000);
+
+        loginAuth.fillDetail();
+
+        Thread.sleep(3000);
+
+        driver.findElement(By.xpath("//input[@id = 'continue']")).click();
+
+        Thread.sleep(3000);
+
+        driver.findElement(By.xpath("//button[@id = 'finish']")).click();
+
+        Thread.sleep(2000);
+
+        takeScreenShort("Shopping","Shopping Recipient");
     }
 }
 
